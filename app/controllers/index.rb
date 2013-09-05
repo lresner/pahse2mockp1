@@ -1,8 +1,18 @@
 get '/' do
   # render home page
   @users = User.all
+  @pros = Proficiency.all
 
   erb :index
+end
+
+get '/user_home/:user_id' do
+
+  @users = User.all
+  @pros = Proficiency.all
+
+  erb :index
+
 end
 
 #----------- SESSIONS -----------
@@ -44,6 +54,12 @@ get '/users/new' do
   erb :sign_up
 end
 
+get '/add_skill' do
+  erb :add_skill
+
+end
+
+
 post '/users' do
   # sign-up
   @user = User.new params[:user]
@@ -55,4 +71,15 @@ post '/users' do
     # an error occurred, re-render the sign-up form, displaying errors
     erb :sign_up
   end
+end
+
+post '/submit_skill' do
+  current_user
+  # @users = User.all
+  # @pros = Proficiency.all
+  skill = Skill.find_or_create_by_name(name: params[:name], context: params[:context])
+  Proficiency.create(user_id: current_user.id, skill_id: skill.id, years: params[:years], formal: params[:formal])
+  
+  redirect to("/user_home/#{current_user.id}")
+
 end

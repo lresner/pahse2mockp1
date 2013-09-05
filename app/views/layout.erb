@@ -18,6 +18,9 @@
     <ul>
       <% if current_user %>
         <li><a id="sign-out" href="/sessions/<%= current_user.id %>">Sign Out</a></li>
+        <form action = '/add_skill' method='GET'> 
+        <input type='submit' value = 'Add New Pro!'> 
+    </form> 
       <% else %>
         <li><a href="/sessions/new">Sign In</a></li>
         <li><a href="/users/new">Sign Up</a></li>
